@@ -105,6 +105,39 @@ Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Messag
 _sym_db.RegisterMessage(Response)
 
 
+
+_DATASTORE = _descriptor.ServiceDescriptor(
+  name='Datastore',
+  full_name='Datastore',
+  file=DESCRIPTOR,
+  index=0,
+  options=None,
+  serialized_start=70,
+  serialized_end=141,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='put',
+    full_name='Datastore.put',
+    index=0,
+    containing_service=None,
+    input_type=_REQUEST,
+    output_type=_RESPONSE,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='get',
+    full_name='Datastore.get',
+    index=1,
+    containing_service=None,
+    input_type=_REQUEST,
+    output_type=_RESPONSE,
+    options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_DATASTORE)
+
+DESCRIPTOR.services_by_name['Datastore'] = _DATASTORE
+
 try:
   # THESE ELEMENTS WILL BE DEPRECATED.
   # Please use the generated *_pb2_grpc.py files instead.
