@@ -22,14 +22,13 @@ class MyDatastoreServicer(datastore_pb2.DatastoreServicer):
         print("put")
         key = uuid.uuid4().hex
         # TODO - save key and value into DB converting request.data string to utf-8 bytes 
-        
+        self.db.put(bytes(key, "utf-8"), bytes(request.data, "utf-8"))
         return datastore_pb2.Response(data=key)
 
     def get(self, request, context):
         print("get")
-        # TODO - retrieve the value from DB by the given key. Needs to convert request.data string to utf-8 bytes. 
-        value = None
-
+        # TODO - retrieve the value from DB by the given key. Needs to convert request.data string to utf-8 bytes.
+        value = self.db.get(bytes(request.data, "utf-8"))
         return datastore_pb2.Response(data=value)
 
 def run(host, port):
