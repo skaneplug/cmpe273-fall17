@@ -1,14 +1,24 @@
 import subprocess
 from flask import Flask, redirect, url_for, request, jsonify
-from random import randint
+import sqlite3
 import os
 import socket
 
+#File Upload
 UPLOAD_FOLDER = 'uploads_py'
 ALLOWED_EXTENSIONS = set(['py'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+SCID = 0
+#DB Connection
+
+def get_scriptId():
+    global SCID
+    SCID += 1
+    return SCID
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -35,12 +45,13 @@ def upload_file():
             return 'No selected file'
 
         if file and allowed_file(file.filename):
-            script_id = randint(0, 100)
+            script_id = get_scriptId()
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(script_id)+".py"))
             return jsonify({"script-id": script_id})
 
 @app.route('/api/v1/scripts/<id>')
 def render2(id):
+    get_scriptId()
     return run_script(id)
 
 @app.route('/hello')
