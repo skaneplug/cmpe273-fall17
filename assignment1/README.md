@@ -1,58 +1,16 @@
-# Requirements
+#Instruction 
 
-You will be implementing a dynamic Python invoker REST service. The service will have the following features:
+###Build App Command
+```
+docker build -t flaskapp .
+docker run -p 8000:80 flaskapp
 
-## 1. Python Script Uploader
-
-```bash
-POST http://localhost:8000/api/v1/scripts
 ```
 
-### Request
+####Curl Command
+```buildoutcfg
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@tmp_f/foo.py" http://localhost:8000/api/v1/scripts
 
 
-__foo.py__
-
-```python
-# foo.py
-print("Hello World")
+curl -i http://localhost:8000/api/v1/scripts/1
 ```
-
-```bash
-curl -i -X POST -H "Content-Type: multipart/form-data" 
--F "data=@/tmp/foo.py" http://localhost:8000/api/v1/scripts
-```
-
-```bash
-201 Created
-```
-
-```json
-{
-    "script-id": "123456"
-}
-```
-
-## 2. Python Script Invoker
-
-```bash
-GET http://localhost:8000/api/v1/scripts/{script-id}
-```
-
-### Request
-
-```bash
-curl -i
-http://localhost:8000/api/v1/scripts/123456
-```
-
-```bash
-200 OK
-```
-
-```json
-Hello World
-```
-
-
-
