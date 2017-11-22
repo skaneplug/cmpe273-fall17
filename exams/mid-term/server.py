@@ -18,8 +18,29 @@ class EncoderServer(encoder_pb2.EncoderServicer):
     EncoderServer is the main class that handles encoding and decoding.
     '''
 
+    def encode_helper(self, url):
+        id = 0
+        for i in range(0, len(url)):
+            if ('a' <= url[i]) and (url[i] <= 'z'):
+                id = id*62 + url[i] - 'a'
+            if ('A' <= url[i]) and (url[i] <= 'Z'):
+                id = id*62 + url[i] - 'A' + 26
+            if ('0' <= url[i]) and (url[i] <= '9'):
+                id = id*62 + url[i] - '0' + 52
+        return id
+
+    def decode_helper(self, id):
+        id = int(id)
+        url = ""
+        map = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        while id > 0:
+            url = url + str(map[id % 62])
+            id = id / 62
+        return url[::-1]
+
     def __init__(self):
         print("init")
+
 
     def encode(self, request, context):
         '''
@@ -27,7 +48,8 @@ class EncoderServer(encoder_pb2.EncoderServicer):
         '''
         # TODO
         print("Encode:\n", request)
-        return None
+        _id = self.encode_helper(str(request.url))
+        return encoder_pb2.EncodeResponse(id=_id)
 
     def decode(self, request, context):
         '''
@@ -35,7 +57,8 @@ class EncoderServer(encoder_pb2.EncoderServicer):
         '''
         # TODO
         print("Decode:\n", request)
-        return None
+        _url = self.decode_helper(str(request.id))
+        return encoder_pb2.DecodeResponse(url=_url)
 
 def run(host, port):
     '''
